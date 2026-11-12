@@ -1,0 +1,1125 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Browser Theme -->
+  <meta name="theme-color" content="#f4f2eb">
+  <meta name="color-scheme" content="light">
+
+  <!-- Primary SEO -->
+  <title>FLAGFORGE — CTF Evidence & Flag Discovery Workbench</title>
+
+  <meta
+    name="description"
+    content="FLAGFORGE is a local-first CTF forensics and flag discovery workbench. Analyze PCAP traffic, decode hidden messages, extract files, inspect metadata, and investigate challenge evidence."
+  >
+
+  <meta name="application-name" content="FLAGFORGE">
+  <meta name="author" content="FLAGFORGE">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta
+    property="og:title"
+    content="FLAGFORGE — CTF Investigation Workbench"
+  >
+  <meta
+    property="og:description"
+    content="One capture. Every lead. Investigate PCAPs, hidden data, encoded messages, and forensic evidence in one local-first CTF workbench."
+  >
+  <meta property="og:site_name" content="FLAGFORGE">
+
+  <!-- Twitter / Social Preview -->
+  <meta name="twitter:card" content="summary">
+  <meta
+    name="twitter:title"
+    content="FLAGFORGE — CTF Evidence Workbench"
+  >
+  <meta
+    name="twitter:description"
+    content="Question-aware PCAP analysis, decoding, hidden-file extraction, and evidence-backed CTF flag discovery."
+  >
+
+  <!-- FLAGFORGE Favicon -->
+  <link
+    rel="icon"
+    href="/static/favicon.ico"
+    type="image/x-icon"
+    sizes="any"
+  >
+
+  <link
+    rel="icon"
+    href="/static/favicon.png"
+    type="image/png"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="/static/favicon.png"
+  >
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/static/style.css">
+
+  <!-- Application JavaScript -->
+  <script src="/static/app.js" defer></script>
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+  <!-- =====================================
+       SIDEBAR
+  ====================================== -->
+
+  <aside class="sidebar">
+
+    <a
+      class="brand"
+      href="/"
+      aria-label="FLAGFORGE home"
+    >
+      <span class="brand-mark" aria-hidden="true">f/f</span>
+
+      <span class="brand-text">
+        FLAGFORGE
+        <small>ANALYSIS WORKBENCH</small>
+      </span>
+    </a>
+
+    <div class="sidebar-section-title">
+      WORKSPACE
+      <span>01—05</span>
+    </div>
+
+    <nav class="main-nav" aria-label="Case workspace views">
+
+      <button class="nav-link active" data-tab="overview">
+        <span class="nav-key">01</span>
+        Answer desk
+        <span class="nav-glyph">↗</span>
+      </button>
+
+      <button class="nav-link" data-tab="network">
+        <span class="nav-key">02</span>
+        Network traffic
+        <span class="nav-glyph">↗</span>
+      </button>
+
+      <button class="nav-link" data-tab="decoders">
+        <span class="nav-key">03</span>
+        Decoder lab
+        <span class="nav-glyph">↗</span>
+      </button>
+
+      <button class="nav-link" data-tab="artifacts">
+        <span class="nav-key">04</span>
+        Extracted files
+        <span class="nav-glyph">↗</span>
+      </button>
+
+      <button class="nav-link" data-tab="assistant">
+        <span class="nav-key">05</span>
+        Local AI
+        <span class="nav-glyph">↗</span>
+      </button>
+
+    </nav>
+
+    <div class="side-bottom">
+
+      <div class="side-divider"></div>
+
+      <div class="side-field">
+        ENGINE STATUS
+        <span class="status-dot" aria-hidden="true"></span>
+      </div>
+
+      <p id="api-status">
+        Connecting to the local analyzer…
+      </p>
+
+      <div class="side-divider"></div>
+
+      <div class="side-field">
+        PRIVACY MODEL
+      </div>
+
+      <p>
+        Local analysis · no automatic cloud upload · no live capture
+      </p>
+
+      <span class="side-version">
+        RELEASE 2.0 / OPEN SOURCE READY
+      </span>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================
+       MAIN APPLICATION SHELL
+  ====================================== -->
+
+  <div class="shell">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <div class="breadcrumb">
+        FLAGFORGE
+        <span>/</span>
+        CASE 001
+        <span>/</span>
+        <b>INBOX</b>
+      </div>
+
+      <div class="top-actions">
+
+        <span class="local-tag">
+          <i></i>
+          LOCAL SESSION
+        </span>
+
+        <button
+          class="button button-outline small"
+          id="bundle-button"
+          disabled
+        >
+          ↓ Evidence ZIP
+        </button>
+
+        <button
+          class="button button-outline small"
+          id="writeup-button"
+          disabled
+        >
+          ↓ Writeup
+        </button>
+
+        <button
+          class="button button-outline small"
+          id="export-button"
+          disabled
+        >
+          ↓ Report
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <!-- =====================================
+           HERO SECTION
+      ====================================== -->
+
+      <section class="hero" aria-labelledby="hero-title">
+
+        <div class="hero-copy">
+
+          <div class="eyebrow">
+            A BETTER WAY TO SOLVE CTF FORENSICS
+            <span>— EST. 2026</span>
+          </div>
+
+          <h1 id="hero-title">
+            One capture.<br>
+            <em>Every lead.</em>
+          </h1>
+
+          <p>
+            Give us the challenge question and evidence.
+            We reconstruct the conversations, surface hidden
+            content, follow decoding chains and explain
+            where each possible flag came from.
+          </p>
+
+          <div class="hero-tags">
+            <span>PCAP / PCAPNG</span>
+            <span>DNS EXFIL</span>
+            <span>HTTP + TLS CLUES</span>
+            <span>CRYPTO</span>
+            <span>HIDDEN FILES</span>
+          </div>
+
+        </div>
+
+
+        <div class="hero-visual" aria-hidden="true">
+
+          <div class="graphic-heading">
+            THE FORENSIC LOOP
+          </div>
+
+          <div class="trace-figure">
+
+            <div class="trace-line">
+              0x01
+              <span>ingest</span>
+              <b>●──────┐</b>
+            </div>
+
+            <div class="trace-line">
+              0x02
+              <span>inspect</span>
+              <b>│ ┌────●</b>
+            </div>
+
+            <div class="trace-line">
+              0x03
+              <span>decode</span>
+              <b>●─┘ ┌──┘</b>
+            </div>
+
+            <div class="trace-line">
+              0x04
+              <span>prove</span>
+              <b>└───●</b>
+            </div>
+
+          </div>
+
+          <div class="graphic-bottom">
+            SIGNAL BEFORE SPECULATION
+            <span>↗</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================
+           WORKSPACE GRID
+      ====================================== -->
+
+      <div class="workspace-grid">
+
+        <div class="main-column">
+
+          <!-- =====================================
+               UPLOAD / INVESTIGATION
+          ====================================== -->
+
+          <section
+            class="panel upload-panel"
+            aria-labelledby="ingest-label"
+          >
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="section-kicker">
+                  01 / INVESTIGATION INBOX
+                </span>
+
+                <h2 id="ingest-label">
+                  Start with the question.
+                </h2>
+
+                <p>
+                  The question steers the search.
+                  Your original file remains unchanged.
+                </p>
+
+              </div>
+
+              <span class="soft-badge">
+                READ-ONLY
+              </span>
+
+            </div>
+
+
+            <!-- CHALLENGE QUESTION -->
+
+            <div class="question-row">
+
+              <label
+                class="field-label"
+                for="challenge-question"
+              >
+                CHALLENGE PROMPT / QUESTION
+                <span>OPTIONAL, BUT RECOMMENDED</span>
+              </label>
+
+              <textarea
+                id="challenge-question"
+                placeholder="Example: Our analyst suspects someone hid a message inside DNS queries. Recover the flag. Format: spooky{...}"
+              ></textarea>
+
+            </div>
+
+
+            <!-- INPUT MODE SWITCH -->
+
+            <div
+              class="mode-switch"
+              role="tablist"
+              aria-label="Input mode"
+            >
+
+              <button
+                class="mode active"
+                data-mode="file"
+                role="tab"
+                aria-selected="true"
+              >
+                01 &nbsp; File upload
+              </button>
+
+              <button
+                class="mode"
+                data-mode="text"
+                role="tab"
+                aria-selected="false"
+              >
+                02 &nbsp; Paste data
+              </button>
+
+            </div>
+
+
+            <!-- FILE UPLOAD -->
+
+            <div
+              id="upload-zone"
+              class="dropzone"
+              role="button"
+              tabindex="0"
+              aria-label="Choose or drop a local evidence file"
+            >
+
+              <input
+                id="file-input"
+                type="file"
+                hidden
+              >
+
+              <span class="upload-symbol">
+                ↥
+              </span>
+
+              <div class="drop-content">
+
+                <h3 id="drop-title">
+                  Drop your evidence here
+                </h3>
+
+                <p id="drop-description">
+                  or select a file from your computer
+                </p>
+
+                <small>
+                  .pcap .pcapng .cap .bin .png .zip .txt .wav .pdf + more
+                </small>
+
+              </div>
+
+              <span class="upload-action">
+                BROWSE ↗
+              </span>
+
+            </div>
+
+
+            <!-- TEXT INPUT -->
+
+            <div id="text-zone" class="text-zone hidden">
+
+              <label
+                class="field-label"
+                for="paste-text"
+              >
+                PASTE RAW / ENCODED EVIDENCE
+              </label>
+
+              <textarea
+                id="paste-text"
+                spellcheck="false"
+                placeholder="c3Bvb3t5e2RlY29kZV9sYXllcnN9 ..."
+              ></textarea>
+
+            </div>
+
+
+            <!-- TLS KEY LOG -->
+
+            <div id="tls-zone" class="tls-row">
+
+              <label for="tlskey-input">
+                OPTIONAL TLS SESSION KEY LOG
+                <span>· for captures you own</span>
+              </label>
+
+              <input
+                type="file"
+                id="tlskey-input"
+                accept=".log,.txt,.keys"
+              >
+
+              <p>
+                TShark can use valid session secrets locally.
+                Keys will not appear in the report.
+              </p>
+
+            </div>
+
+
+            <!-- ANALYSIS CONTROLS -->
+
+            <div class="analysis-controls">
+
+              <div class="field">
+
+                <label for="flag-prefix">
+                  FLAG PREFIX
+                  <span>OPTIONAL</span>
+                </label>
+
+                <input
+                  id="flag-prefix"
+                  maxlength="30"
+                  placeholder="spooky / picoCTF / flag"
+                >
+
+                <small>
+                  Can also be inferred from the question format.
+                </small>
+
+              </div>
+
+              <button
+                id="analyze-button"
+                class="button button-primary"
+              >
+                RUN AUTO-INVESTIGATION
+                <span>↗</span>
+              </button>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="inbox-footer">
+
+              <div
+                id="run-status"
+                class="status-line"
+                aria-live="polite"
+              >
+
+                <span class="status-indicator"></span>
+
+                Engine ready. No evidence loaded.
+
+              </div>
+
+              <button
+                type="button"
+                class="sample-link"
+                id="sample-button"
+              >
+                Try sample PCAP ↗
+              </button>
+
+            </div>
+
+          </section>
+
+
+          <!-- =====================================
+               RESULTS PANEL
+          ====================================== -->
+
+          <section
+            class="panel results-panel"
+            id="results-panel"
+          >
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="section-kicker">
+                  02 / THE CASE FILE
+                </span>
+
+                <h2 id="view-title">
+                  Answer desk
+                </h2>
+
+                <p id="view-subtitle">
+                  Flag candidates, evidence trails and next actions.
+                </p>
+
+              </div>
+
+              <span id="job-badge" class="soft-badge">
+                NO CASE LOADED
+              </span>
+
+            </div>
+
+
+            <!-- METRICS -->
+
+            <div class="stats-grid">
+
+              <div class="metric">
+                <small>CANDIDATE FLAGS</small>
+                <strong id="metric-flags">—</strong>
+                <span>Exact pattern matches</span>
+              </div>
+
+              <div class="metric">
+                <small>PACKETS</small>
+                <strong id="metric-packets">—</strong>
+                <span>Capture inventory</span>
+              </div>
+
+              <div class="metric">
+                <small>FILES FOUND</small>
+                <strong id="metric-files">—</strong>
+                <span>Nested and carved</span>
+              </div>
+
+              <div class="metric">
+                <small>ARTIFACTS</small>
+                <strong id="metric-artifacts">—</strong>
+                <span>Save or inspect</span>
+              </div>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div id="empty-results" class="empty-results">
+
+              <span class="empty-icon">⌁</span>
+
+              <h3>
+                No evidence. No guesses.
+              </h3>
+
+              <p>
+                Start an investigation to reveal findings here.
+                No synthetic flag answers, no unsupported claims.
+              </p>
+
+            </div>
+
+
+            <!-- RESULTS CONTENT -->
+
+            <div id="result-content" class="hidden">
+
+
+              <!-- OVERVIEW -->
+
+              <div class="view" id="view-overview">
+
+                <div
+                  id="investigation-summary"
+                  class="investigation-summary"
+                ></div>
+
+                <div class="section-row">
+
+                  <h3>
+                    Possible answers
+                    <span
+                      class="count-badge"
+                      id="flag-count"
+                    >0</span>
+                  </h3>
+
+                  <span class="fine-text">
+                    NOT SCOREBOARD VERIFIED
+                  </span>
+
+                </div>
+
+                <div
+                  id="flag-list"
+                  class="findings-list"
+                ></div>
+
+
+                <div class="section-row">
+
+                  <h3>
+                    Autopilot investigation plan
+                  </h3>
+
+                  <span class="fine-text">
+                    QUESTION-AWARE
+                  </span>
+
+                </div>
+
+                <div
+                  id="plan-list"
+                  class="plan-list"
+                ></div>
+
+
+                <div class="two-panels">
+
+                  <div>
+
+                    <h3 class="minor-head">
+                      Evidence notes
+                    </h3>
+
+                    <div
+                      id="evidence-list"
+                      class="notes-list"
+                    ></div>
+
+                  </div>
+
+
+                  <div>
+
+                    <h3 class="minor-head">
+                      Further leads
+                    </h3>
+
+                    <div
+                      id="hint-list"
+                      class="notes-list"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+
+                <h3 class="minor-head divider-top">
+                  Source file identity
+                </h3>
+
+                <div
+                  class="identity-grid"
+                  id="identity"
+                ></div>
+
+              </div>
+
+
+              <!-- NETWORK TRAFFIC -->
+
+              <div
+                class="view hidden"
+                id="view-network"
+              >
+
+                <div class="view-help">
+                  Native passive parser + optional TShark.
+                  No packets are transmitted from the app.
+                </div>
+
+                <div id="network-body"></div>
+
+              </div>
+
+
+              <!-- DECODER LAB -->
+
+              <div
+                class="view hidden"
+                id="view-decoders"
+              >
+
+                <div class="decoder-bench">
+
+                  <span class="section-kicker">
+                    MANUAL TRANSFORM LAB
+                  </span>
+
+                  <h3>
+                    Follow an encoded clue.
+                  </h3>
+
+                  <p>
+                    Paste a suspicious string from any stream
+                    and run additional bounded decoding rounds.
+                  </p>
+
+                  <textarea
+                    id="decode-input"
+                    spellcheck="false"
+                    placeholder="Paste encoded token, hex, binary or ciphertext here"
+                  ></textarea>
+
+                  <div class="decoder-bench-actions">
+
+                    <button
+                      class="button button-outline small"
+                      id="decode-button"
+                    >
+                      Decode this clue ↗
+                    </button>
+
+                    <span
+                      id="decode-status"
+                      aria-live="polite"
+                    ></span>
+
+                  </div>
+
+                  <div id="decode-output"></div>
+
+                </div>
+
+                <div id="decoding-body"></div>
+
+              </div>
+
+
+              <!-- EXTRACTED ARTIFACTS -->
+
+              <div
+                class="view hidden"
+                id="view-artifacts"
+              >
+
+                <div class="section-row">
+
+                  <h3>
+                    Recovered objects
+                  </h3>
+
+                  <span class="fine-text">
+                    TREAT UNKNOWN ATTACHMENTS AS UNTRUSTED
+                  </span>
+
+                </div>
+
+                <div id="artifact-body"></div>
+
+
+                <div class="unlock-box">
+
+                  <h3>
+                    Known-password extraction
+                  </h3>
+
+                  <p>
+                    Supply a password you already have for
+                    a ZIP or steghide carrier;
+                    no dictionary guessing.
+                  </p>
+
+                  <div class="unlock-actions">
+
+                    <input
+                      type="password"
+                      id="unlock-pass"
+                      placeholder="Known password / passphrase"
+                      autocomplete="off"
+                    >
+
+                    <button
+                      id="zip-unlock"
+                      class="button button-outline small"
+                    >
+                      Unlock ZIP
+                    </button>
+
+                    <button
+                      id="stego-unlock"
+                      class="button button-outline small"
+                    >
+                      Extract steghide
+                    </button>
+
+                  </div>
+
+                  <div
+                    id="unlock-result"
+                    class="subtle-output"
+                    aria-live="polite"
+                  ></div>
+
+                </div>
+
+              </div>
+
+
+              <!-- LOCAL AI -->
+
+              <div
+                class="view hidden"
+                id="view-assistant"
+              >
+
+                <div class="ai-intro">
+
+                  <div class="ai-icon">
+                    AI
+                  </div>
+
+                  <div>
+
+                    <span class="section-kicker">
+                      LOCAL REASONING
+                    </span>
+
+                    <h3>
+                      An analyst, not another website.
+                    </h3>
+
+                    <p>
+                      Connect your own free Ollama model.
+                      It receives a bounded evidence summary
+                      via localhost and proposes next steps;
+                      it does not invent confirmed flags.
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <div class="field ai-model-field">
+
+                  <label for="ai-model">
+                    OLLAMA MODEL
+                  </label>
+
+                  <input
+                    id="ai-model"
+                    value="qwen2.5-coder:3b"
+                    spellcheck="false"
+                  >
+
+                </div>
+
+
+                <label
+                  class="field-label"
+                  for="ai-question"
+                >
+                  QUESTION FOR THE MODEL
+                </label>
+
+                <textarea id="ai-question">Review this PCAP investigation, identify the most promising evidence and explain how to recover the challenge flag.</textarea>
+
+
+                <div class="ai-submit">
+
+                  <button
+                    id="ask-ai"
+                    class="button button-primary"
+                  >
+                    ASK LOCAL ANALYST ↗
+                  </button>
+
+                  <small>
+                    Requires a running local Ollama instance.
+                  </small>
+
+                </div>
+
+                <pre
+                  id="ai-answer"
+                  class="ai-answer"
+                  aria-live="polite"
+                >Your local analyst has not been called yet.</pre>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- =====================================
+             RIGHT SIDEBAR
+        ====================================== -->
+
+        <aside
+          class="right-column"
+          aria-label="Engine reference"
+        >
+
+          <!-- DETECTION PLAYBOOK -->
+
+          <section class="panel right-panel">
+
+            <div class="aside-head">
+
+              <span class="section-kicker">
+                DETECTION PLAYBOOK
+              </span>
+
+              <h3>
+                Look where the flag hides.
+              </h3>
+
+            </div>
+
+
+            <div class="playbook-entries">
+
+              <div>
+
+                <span>01</span>
+
+                <b>Reconstruct</b>
+
+                <p>
+                  Out-of-order TCP packets,
+                  HTTP objects and data fragments.
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <span>02</span>
+
+                <b>Interrogate</b>
+
+                <p>
+                  DNS labels, TXT answers,
+                  headers, metadata and packet payloads.
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <span>03</span>
+
+                <b>Transform</b>
+
+                <p>
+                  Recursive encoding, compressed
+                  content and text stego.
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <span>04</span>
+
+                <b>Trace</b>
+
+                <p>
+                  Provenance, possible answers,
+                  artifacts and exportable writeups.
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ENVIRONMENT CHECK -->
+
+          <section class="panel tool-panel">
+
+            <div class="aside-head">
+
+              <span class="section-kicker">
+                ENVIRONMENT CHECK
+              </span>
+
+              <h3>
+                Local integrations
+              </h3>
+
+              <p>
+                Core engine runs without external CLIs.
+                Installed tools expand coverage.
+              </p>
+
+            </div>
+
+            <div id="tool-list" class="tool-list">
+              Checking components…
+            </div>
+
+            <div class="tool-note">
+              Tip:
+              <code>brew install wireshark exiftool binwalk</code>
+              expands protocol and metadata coverage.
+            </div>
+
+          </section>
+
+
+          <!-- SAFETY NOTE -->
+
+          <div class="safety-note">
+
+            <b>
+              NOT MAGIC. FORENSICS.
+            </b>
+
+            <p>
+              Unknown encryption needs keys.
+              Missing packets cannot be recreated.
+              FLAGFORGE reports evidence-backed
+              candidates rather than pretending
+              to solve every challenge.
+            </p>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+
+      <!-- =====================================
+           FOOTER
+      ====================================== -->
+
+      <footer class="page-footer">
+
+        <span>
+          FLAGFORGE / CTF FORENSIC NOTEBOOK
+        </span>
+
+        <span>
+          LOCAL BY DEFAULT · CASE DATA EXPIRES AFTER 45 MIN
+        </span>
+
+      </footer>
+
+    </main>
+
+  </div>
+
+</div>
+
+</body>
+</html>
